@@ -11,19 +11,19 @@ import java.sql.Statement;
  */
 public class HiveDemo {
     public static void main(String[] args) throws Exception {
-        HiveDemoOption option = new HiveDemoOption(args);
-        if (option.hasHelp()) {
-            option.printHelp();
-            return;
-        }
+//        HiveDemoOption option = new HiveDemoOption(args);
+//        if (option.hasHelp()) {
+//            option.printHelp();
+//            return;
+//        }
 
         Class.forName("org.apache.hive.jdbc.HiveDriver");
 
         // String url = "jdbc:hive2://host:10000/default";
         //高可用方式：客户端选择可用的hiveserver
-        String url = String.format("jdbc:hive2://%s/default;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2", option.getZkList());
+        String url = String.format("jdbc:hive2://172.16.40.19:10000/");
 
-        Connection conn = DriverManager.getConnection(url, option.getUser(), option.getPassword());
+        Connection conn = DriverManager.getConnection(url, "admin", "Tbds@2020");
         Statement st = conn.createStatement();
         String sqlString = "SHOW DATABASES";
         ResultSet rs = st.executeQuery(sqlString);

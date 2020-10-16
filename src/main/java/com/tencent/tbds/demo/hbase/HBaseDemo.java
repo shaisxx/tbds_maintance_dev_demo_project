@@ -20,19 +20,18 @@ import java.io.IOException;
  */
 public class HBaseDemo {
     public static void main(String[] args) throws IOException {
-        HBaseDemoOption option = new HBaseDemoOption(args);
-        if (option.hasHelp()) {
-            option.printHelp();
-            return;
-        }
+//        HBaseDemoOption option = new HBaseDemoOption(args);
+//        if (option.hasHelp()) {
+//            option.printHelp();
+//            return;
+//        }
 
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", option.getZkHost());
+        conf.set("hbase.zookeeper.quorum", "172.16.40.24:2181,172.16.40.19:2181,172.16.40.49:2181");
         conf.set("zookeeper.znode.parent", "/hbase-unsecure");
-
         // 认证参数
-        conf.set("hbase.security.authentication.tbds.secureid", option.getAuthId());
-        conf.set("hbase.security.authentication.tbds.securekey", option.getAuthKey());
+        conf.set("hbase.security.authentication.tbds.secureid", "HpnWQVVsknUY0bSGto4wfnUbRI3Ez2cMPe7J");
+        conf.set("hbase.security.authentication.tbds.securekey", "g8wEVdN8kqGfzpOBf4QdzjzegjNMJHEA");
 
         Connection connection = ConnectionFactory.createConnection(conf);
         Admin admin = connection.getAdmin();
@@ -45,7 +44,8 @@ public class HBaseDemo {
 
         System.out.println("----------------------------------------");
 
-        Table table = connection.getTable(TableName.valueOf(option.getTableName()));
+//        Table table = connection.getTable(TableName.valueOf(option.getTableName()));
+        Table table = connection.getTable(TableName.valueOf("tsdb"));
         Scan scan = new Scan();
         scan.setBatch(50);
         scan.setCaching(100);
